@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.By;
+
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -50,15 +50,14 @@ public class FaqTest extends BaseTest {
 
     @Test
     public void checkFaqAnswerText() {
-        By questionLocator = mainPage.getQuestionLocator(questionKey);
-        By answerLocator = mainPage.getAnswerLocator(questionKey);
-
-        mainPage.clickFaqQuestion(questionLocator);
+        mainPage.clickQuestion(questionKey);
 
         Assert.assertTrue("Ответ не отображается для вопроса: " + questionKey,
-                mainPage.isAnswerVisible(answerLocator));
+                mainPage.isAnswerDisplayed(questionKey));
 
-        String actualAnswer = mainPage.getAnswerText(answerLocator);
-        Assert.assertEquals("Текст ответа не совпадает для вопроса: " + questionKey, expectedAnswer, actualAnswer);
+        String actualAnswer = mainPage.getAnswerTextByKey(questionKey);
+
+        Assert.assertEquals("Текст ответа не совпадает для вопроса: " + questionKey,
+                expectedAnswer, actualAnswer);
     }
 }

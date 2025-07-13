@@ -15,7 +15,8 @@ public class MainPage {
 
     // URL главной страницы
     public static final String URL = "https://qa-scooter.praktikum-services.ru/";
-
+     //Кнопка закрытия куки
+     private final By cookieButton = By.id("rcc-confirm-button");
     // Локаторы для вопросов
     private final By howMuchCostQuestion = By.id("accordion__heading-0");
     private final By multipleScootersQuestion = By.id("accordion__heading-1");
@@ -41,30 +42,37 @@ public class MainPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
-    // Метод для закрытия cookie-блоков (реализуй при необходимости)
+    // Метод для закрытия cookie-блоков
     public void closeCookies() {
-        // Пример:
-        // By cookieButton = By.id("cookie_button");
-        // wait.until(ExpectedConditions.elementToBeClickable(cookieButton)).click();
+        try {
+            WebElement cookieBtn = wait.until(ExpectedConditions.elementToBeClickable(cookieButton));
+            cookieBtn.click();
+        } catch (Exception ignored) {
+        }
     }
 
-    // Метод для клика по вопросу с ожиданием кликабельности
-    public void clickFaqQuestion(By questionLocator) {
+
+    // Клик по вопросу по ключу
+    public void clickQuestion(String questionKey) {
+        By questionLocator = getQuestionLocator(questionKey);
         WebElement question = wait.until(ExpectedConditions.elementToBeClickable(questionLocator));
         question.click();
     }
 
-    // Метод для проверки видимости ответа с ожиданием
-    public boolean isAnswerVisible(By answerLocator) {
+    // Проверка: ответ виден
+    public boolean isAnswerDisplayed(String questionKey) {
+        By answerLocator = getAnswerLocator(questionKey);
         WebElement answer = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
         return answer.isDisplayed();
     }
 
-    // Метод для получения текста ответа с ожиданием
-    public String getAnswerText(By answerLocator) {
+    // Получение текста ответа
+    public String getAnswerTextByKey(String questionKey) {
+        By answerLocator = getAnswerLocator(questionKey);
         WebElement answer = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
         return answer.getText().trim();
     }
+
 
     // Получаем локатор ответа по имени вопроса
     public By getAnswerLocator(String questionName) {
