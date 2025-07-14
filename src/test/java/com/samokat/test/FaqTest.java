@@ -41,11 +41,10 @@ public class FaqTest extends BaseTest {
     }
 
     @Before
-    public void setUpPages() {
-        driver.get(MainPage.URL);
-        mainPage = new MainPage(driver);
+    public void initPages() {
         orderPage = new OrderPage(driver);
-        orderPage.closeCookies();
+        mainPage = new MainPage(driver);
+        mainPage.closeCookies();
     }
 
     @Test

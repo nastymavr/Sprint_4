@@ -12,14 +12,13 @@ public class BaseTest {
 
     @Before
     public void setUp() {
-        // Настройка драйвера
         System.setProperty("webdriver.chrome.driver", "D:\\Nasti\\drive\\chromedriver-win64\\chromedriver.exe");
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(); // ← создаёт новый браузер
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-        // Запуск браузера в полноэкранном режиме
         driver.manage().window().maximize();
+        driver.get("https://qa-scooter.praktikum-services.ru/");
     }
+
 
     // Метод для закрытия браузера после теста
     @After

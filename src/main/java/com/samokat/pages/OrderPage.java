@@ -12,9 +12,6 @@
 
         // Локаторы
 
-        // Кнопка закрытия баннера куки
-        private final By cookieButton = By.id("rcc-confirm-button");
-
         // Кнопка "Заказать" в шапке сайта
         private final By topOrderButton = By.xpath("//div[@class='Header_Nav__AGCXC']//button[text()='Заказать']");
 
@@ -50,18 +47,6 @@
         }
 
 
-         // Закрыть баннер куки, если он появился.
-        public void closeCookies() {
-            try {
-                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-                WebElement cookieBtn = wait.until(ExpectedConditions.elementToBeClickable(cookieButton));
-                cookieBtn.click();
-            } catch (TimeoutException e) {
-                // Баннер не появился — игнорируем
-            }
-        }
-
-
          // Клик на верхнюю кнопку "Заказать"
         public void clickTopOrderButton() {
             driver.findElement(topOrderButton).click();
@@ -69,20 +54,16 @@
 
 
          // Клик на нижнюю кнопку "Заказать"
-        public void clickBottomOrderButton() {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-            // Скроллим к логотипу, чтобы кнопка была видна
-            driver.findElement(buttonLogoSamokat).click();
-
-            WebElement bottomButton = wait.until(ExpectedConditions.elementToBeClickable(bottomOrderButton));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", bottomButton);
-
-            bottomButton.click();
-        }
+         public void clickBottomOrderButton() {
+             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+             WebElement bottomButton = wait.until(ExpectedConditions.elementToBeClickable(bottomOrderButton));
+             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", bottomButton);
+             bottomButton.click();
+         }
 
 
-         // Заполнение полей первого шага заказа
+
+        // Заполнение полей первого шага заказа
         public void fillFirstStep(String name, String surname, String address, String metro, String phone) {
             driver.findElement(nameInput).sendKeys(name);
             driver.findElement(surnameInput).sendKeys(surname);

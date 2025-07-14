@@ -1,26 +1,24 @@
 package com.samokat.test;
-
+import com.samokat.pages.MainPage;
 import com.samokat.pages.OrderPage;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SamokatTest extends BaseTest {
 
     private OrderPage orderPage;
+    private MainPage mainPage;
 
-    @Override
-    public void setUp() {
-        super.setUp();  // Вызов метода родительского класса для инициализации драйвера
+    @Before
+    public void initPages() {
         orderPage = new OrderPage(driver);
+        mainPage = new MainPage(driver);
+        mainPage.closeCookies();
     }
 
     @Test
     public void testOrderViaTopButton() {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        // Закрываем баннер куки, если он есть
-        orderPage.closeCookies();
-
         // Кликаем на верхнюю кнопку "Заказать"
         orderPage.clickTopOrderButton();
 
@@ -51,11 +49,6 @@ public class SamokatTest extends BaseTest {
 
     @Test
     public void testOrderViaBottomButton() {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        // Закрываем баннер куки, если он есть
-        orderPage.closeCookies();
-
         // Кликаем на нижнюю кнопку "Заказать"
         orderPage.clickBottomOrderButton();
 
