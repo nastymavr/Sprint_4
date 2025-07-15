@@ -12,15 +12,6 @@
 
         // Локаторы
 
-        // Кнопка "Заказать" в шапке сайта
-        private final By topOrderButton = By.xpath("//div[@class='Header_Nav__AGCXC']//button[text()='Заказать']");
-
-        // Кнопка логотипа Яндекс Самокат (для скролла)
-        private final By buttonLogoSamokat = By.className("Header_LogoScooter__3lsAR");
-
-        // Нижняя кнопка "Заказать"
-        private final By bottomOrderButton = By.xpath("//button[contains(@class,'Button_Middle__1CSJM') and text()='Заказать']");
-
         // Поля первого шага
         private final By nameInput = By.xpath("//input[@placeholder='* Имя']"); // Локатор для поля "Имя"
         private final By surnameInput = By.xpath("//input[@placeholder='* Фамилия']"); // Локатор для поля "Фамилия"
@@ -45,22 +36,6 @@
         public OrderPage(WebDriver driver) {
             this.driver = driver;
         }
-
-
-         // Клик на верхнюю кнопку "Заказать"
-        public void clickTopOrderButton() {
-            driver.findElement(topOrderButton).click();
-        }
-
-
-         // Клик на нижнюю кнопку "Заказать"
-         public void clickBottomOrderButton() {
-             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-             WebElement bottomButton = wait.until(ExpectedConditions.elementToBeClickable(bottomOrderButton));
-             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", bottomButton);
-             bottomButton.click();
-         }
-
 
 
         // Заполнение полей первого шага заказа

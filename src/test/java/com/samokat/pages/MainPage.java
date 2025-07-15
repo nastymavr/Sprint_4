@@ -1,6 +1,7 @@
 package com.samokat.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,33 +14,36 @@ public class MainPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
+    // Кнопка "Заказать" в шапке сайта
+    private final By topOrderButton = By.xpath("//div[@class='Header_Nav__AGCXC']//button[text()='Заказать']");
+
+    // Нижняя кнопка "Заказать"
+    private final By bottomOrderButton = By.xpath("//button[contains(@class,'Button_Middle__1CSJM') and text()='Заказать']");
+
+    // Кнопка логотипа Яндекс Самокат (для скролла)
+    private final By buttonLogoSamokat = By.className("Header_LogoScooter__3lsAR");
     // URL главной страницы
     public static final String URL = "https://qa-scooter.praktikum-services.ru/";
      //Кнопка закрытия куки
      private final By cookieButton = By.id("rcc-confirm-button");
-    // Локаторы для вопросов
-    private final By howMuchCostQuestion = By.id("accordion__heading-0");
-    private final By multipleScootersQuestion = By.id("accordion__heading-1");
-    private final By rentalTimeQuestion = By.id("accordion__heading-2");
-    private final By orderTodayQuestion = By.id("accordion__heading-3");
-    private final By extendOrderQuestion = By.id("accordion__heading-4");
-    private final By bringChargerQuestion = By.id("accordion__heading-5");
-    private final By cancelOrderQuestion = By.id("accordion__heading-6");
-    private final By deliveryOutsideMkadQuestion = By.id("accordion__heading-7");
-
-    // Локаторы для ответов
-    private final By howMuchCostAnswer = By.id("accordion__panel-0");
-    private final By multipleScootersAnswer = By.id("accordion__panel-1");
-    private final By rentalTimeAnswer = By.id("accordion__panel-2");
-    private final By orderTodayAnswer = By.id("accordion__panel-3");
-    private final By extendOrderAnswer = By.id("accordion__panel-4");
-    private final By bringChargerAnswer = By.id("accordion__panel-5");
-    private final By cancelOrderAnswer = By.id("accordion__panel-6");
-    private final By deliveryOutsideMkadAnswer = By.id("accordion__panel-7");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    }
+
+    // Клик на верхнюю кнопку "Заказать"
+    public void clickTopOrderButton() {
+        driver.findElement(topOrderButton).click();
+    }
+
+
+    // Клик на нижнюю кнопку "Заказать"
+    public void clickBottomOrderButton() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement bottomButton = wait.until(ExpectedConditions.elementToBeClickable(bottomOrderButton));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", bottomButton);
+        bottomButton.click();
     }
 
     // Метод для закрытия cookie-блоков
@@ -53,54 +57,24 @@ public class MainPage {
 
 
     // Клик по вопросу по ключу
-    public void clickQuestion(String questionKey) {
-        By questionLocator = getQuestionLocator(questionKey);
+    public void clickQuestionByIndex(int index) {
+        By questionLocator = By.id("accordion__heading-" + index);
         WebElement question = wait.until(ExpectedConditions.elementToBeClickable(questionLocator));
         question.click();
     }
 
     // Проверка: ответ виден
-    public boolean isAnswerDisplayed(String questionKey) {
-        By answerLocator = getAnswerLocator(questionKey);
+    public boolean isAnswerDisplayedByIndex(int index) {
+        By answerLocator = By.id("accordion__panel-" + index);
         WebElement answer = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
         return answer.isDisplayed();
     }
 
     // Получение текста ответа
-    public String getAnswerTextByKey(String questionKey) {
-        By answerLocator = getAnswerLocator(questionKey);
+    public String getAnswerTextByIndex(int index) {
+        By answerLocator = By.id("accordion__panel-" + index);
         WebElement answer = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
         return answer.getText().trim();
     }
 
-
-    // Получаем локатор ответа по имени вопроса
-    public By getAnswerLocator(String questionName) {
-        switch (questionName) {
-            case "howMuchCost": return howMuchCostAnswer;
-            case "multipleScooters": return multipleScootersAnswer;
-            case "rentalTime": return rentalTimeAnswer;
-            case "orderToday": return orderTodayAnswer;
-            case "extendOrder": return extendOrderAnswer;
-            case "bringCharger": return bringChargerAnswer;
-            case "cancelOrder": return cancelOrderAnswer;
-            case "deliveryOutsideMkad": return deliveryOutsideMkadAnswer;
-            default: throw new IllegalArgumentException("Invalid question name: " + questionName);
-        }
-    }
-
-    // Получаем локатор вопроса по имени
-    public By getQuestionLocator(String questionName) {
-        switch (questionName) {
-            case "howMuchCost": return howMuchCostQuestion;
-            case "multipleScooters": return multipleScootersQuestion;
-            case "rentalTime": return rentalTimeQuestion;
-            case "orderToday": return orderTodayQuestion;
-            case "extendOrder": return extendOrderQuestion;
-            case "bringCharger": return bringChargerQuestion;
-            case "cancelOrder": return cancelOrderQuestion;
-            case "deliveryOutsideMkad": return deliveryOutsideMkadQuestion;
-            default: throw new IllegalArgumentException("Invalid question name: " + questionName);
-        }
-    }
 }

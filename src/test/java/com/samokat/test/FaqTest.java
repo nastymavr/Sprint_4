@@ -15,28 +15,28 @@ import java.util.Collection;
 @RunWith(Parameterized.class)
 public class FaqTest extends BaseTest {
 
-    private final String questionKey;
+    private final int questionIndex;
     private final String expectedAnswer;
 
     private MainPage mainPage;
     private OrderPage orderPage;
 
-    public FaqTest(String questionKey, String expectedAnswer) {
-        this.questionKey = questionKey;
+    public FaqTest(int questionIndex, String expectedAnswer) {
+        this.questionIndex = questionIndex;
         this.expectedAnswer = expectedAnswer;
     }
 
-    @Parameterized.Parameters(name = "FAQ: {0}")
+    @Parameterized.Parameters(name = "FAQ index: {0}")
     public static Collection<Object[]> testData() {
         return Arrays.asList(new Object[][]{
-                {"howMuchCost", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
-                {"multipleScooters", "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
-                {"rentalTime", "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
-                {"orderToday", "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
-                {"extendOrder", "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
-                {"bringCharger", "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
-                {"cancelOrder", "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
-                {"deliveryOutsideMkad", "Да, обязательно. Всем самокатов! И Москве, и Московской области."}
+                {0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
+                {1, "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
+                {2, "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
+                {3, "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
+                {4, "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
+                {5, "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
+                {6, "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
+                {7, "Да, обязательно. Всем самокатов! И Москве, и Московской области."}
         });
     }
 
@@ -49,14 +49,13 @@ public class FaqTest extends BaseTest {
 
     @Test
     public void checkFaqAnswerText() {
-        mainPage.clickQuestion(questionKey);
+        mainPage.clickQuestionByIndex(questionIndex);
 
-        Assert.assertTrue("Ответ не отображается для вопроса: " + questionKey,
-                mainPage.isAnswerDisplayed(questionKey));
+        Assert.assertTrue("Ответ не отображается для вопроса с индексом: " + questionIndex,
+                mainPage.isAnswerDisplayedByIndex(questionIndex));
 
-        String actualAnswer = mainPage.getAnswerTextByKey(questionKey);
+        String actualAnswer = mainPage.getAnswerTextByIndex(questionIndex);
 
-        Assert.assertEquals("Текст ответа не совпадает для вопроса: " + questionKey,
-                expectedAnswer, actualAnswer);
+        Assert.assertEquals("Текст ответа не совпадает", expectedAnswer, actualAnswer);
     }
 }

@@ -20,7 +20,7 @@ public class SamokatTest extends BaseTest {
     @Test
     public void testOrderViaTopButton() {
         // Кликаем на верхнюю кнопку "Заказать"
-        orderPage.clickTopOrderButton();
+        mainPage.clickTopOrderButton();
 
         // Заполняем первый шаг: имя, фамилия, адрес, метро, телефон
         orderPage.fillFirstStep(
@@ -50,7 +50,7 @@ public class SamokatTest extends BaseTest {
     @Test
     public void testOrderViaBottomButton() {
         // Кликаем на нижнюю кнопку "Заказать"
-        orderPage.clickBottomOrderButton();
+        mainPage.clickBottomOrderButton();
 
         // Заполняем первый шаг: имя, фамилия, адрес, метро, телефон
         orderPage.fillFirstStep(
